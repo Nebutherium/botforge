@@ -165,6 +165,7 @@ a{color:var(--violet-text)}
 .rate dd{margin:0}
 .rate .cost{font:700 1.25rem var(--font-display);text-align:right}
 .rate .what{grid-column:1 / -1;color:var(--muted);font-size:.97rem}
+.care-single{grid-template-columns:minmax(0,1fr);max-width:26rem}
 @media (max-width:820px){.care{grid-template-columns:minmax(0,1fr);gap:2.5rem;margin-top:3.5rem}}
 
 /* How it works */
@@ -281,7 +282,6 @@ footer{border-top:1px solid var(--line);padding:2rem 0 2.5rem;color:var(--muted)
       <a href="#bots">Bots</a>
       <a href="#pricing">Pricing</a>
       <a href="#how">How it works</a>
-      <a href="#dashboard">My bots</a>
       <a href="#support">Support</a>
     </nav>
     <a class="btn btn-primary btn-sm header-cta" href="#order">Order a bot</a>
@@ -354,7 +354,7 @@ footer{border-top:1px solid var(--line);padding:2rem 0 2.5rem;color:var(--muted)
     <div class="wrap">
       <div class="section-head">
         <h2>Simple pricing. Pay for the build once.</h2>
-        <p>Choose the size of bot you need. Hosting and care plans are separate, so you only pay for what you use.</p>
+        <p>Choose the size of bot you need. Hosting is separate, so you only pay for what you use.</p>
       </div>
 
       <div class="plans">
@@ -389,20 +389,12 @@ footer{border-top:1px solid var(--line);padding:2rem 0 2.5rem;color:var(--muted)
       </div>
       <p class="plans-note">Every order includes a requirements review, testing, and your approval before delivery.</p>
 
-      <div class="care">
+      <div class="care care-single">
         <div>
           <h3>Hosting</h3>
           <p>We run your bot for you, so there's nothing to download or keep online yourself.</p>
           <dl class="rates">
             <div class="rate"><dt>Bot hosting</dt><dd class="cost">$7/mo</dd><dd class="what">We run your bot around the clock so it stays online without you.</dd></div>
-          </dl>
-        </div>
-        <div>
-          <h3>Care plans</h3>
-          <p>Keep your bot working as Discord changes and your server grows.</p>
-          <dl class="rates">
-            <div class="rate"><dt>Maintenance</dt><dd class="cost">$10/mo</dd><dd class="what">Bug fixes, Discord API updates, minor changes, and bot monitoring.</dd></div>
-            <div class="rate"><dt>Premium</dt><dd class="cost">$20/mo</dd><dd class="what">Hosting, monitoring, priority support, and unlimited minor changes.</dd></div>
           </dl>
         </div>
       </div>
@@ -425,55 +417,11 @@ footer{border-top:1px solid var(--line);padding:2rem 0 2.5rem;color:var(--muted)
     </div>
   </section>
 
-  <section class="section band" id="dashboard">
-    <div class="wrap dash-grid">
-      <div>
-        <div class="section-head" style="margin-bottom:0">
-          <h2>Follow every order from payment to launch</h2>
-          <p>Your dashboard shows exactly where each bot is. When it's ready, you invite it and manage it from the same place.</p>
-        </div>
-        <ul class="dash-points">
-          <li>Live status for every order</li>
-          <li>Payment, review, build, testing, approval, and delivery checklist</li>
-          <li>Invite and manage links once your bot is online</li>
-        </ul>
-      </div>
-
-      <div class="dash" role="img" aria-label="Preview of the customer dashboard. Order 1042, SpawnerMarket Bot, is in progress: payment and requirements review are done, development is next. A second bot, Verification Bot, is online at version 1.0.0 with invite and manage buttons.">
-        <div class="dash-top"><b>My bots</b><span>Dashboard preview</span></div>
-        <div class="job">
-          <div class="job-head"><b>SpawnerMarket Bot</b><span class="pill wip">In progress</span></div>
-          <dl class="job-meta">
-            <div><dt>Order</dt><dd>#1042</dd></div>
-            <div><dt>Price</dt><dd>$50</dd></div>
-            <div><dt>Developer</dt><dd>Efrem</dd></div>
-            <div><dt>Estimated</dt><dd>2–3 days</dd></div>
-          </dl>
-          <ul class="checks">
-            <li class="done">Payment received</li>
-            <li class="done">Requirements reviewed</li>
-            <li>Development</li>
-            <li>Testing</li>
-            <li>Customer approval</li>
-            <li>Delivered</li>
-          </ul>
-        </div>
-        <div class="job">
-          <div class="job-head"><b>Verification Bot</b><span class="pill live">Online</span></div>
-          <dl class="job-meta">
-            <div><dt>Version</dt><dd>1.0.0</dd></div>
-          </dl>
-          <div class="fake-btns"><span class="fake-btn solid">Invite bot</span><span class="fake-btn">Manage bot</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="section">
     <div class="wrap market">
       <div class="section-head">
         <h2>Ready-made bots, coming soon</h2>
-        <p>Skip the build. Add a finished bot to your server and set it up from your dashboard. Want one today? We can build it for you as a custom order.</p>
+        <p>Skip the build. Add a finished bot to your server and set it up in minutes. Want one today? We can build it for you as a custom order.</p>
       </div>
       <div class="rows">
         <div class="mrow"><b>Advanced Ticket Bot</b><span class="mprice">$15</span><button class="btn btn-ghost btn-sm" type="button" data-bot="Advanced Ticket Bot">Order this</button></div>
@@ -559,7 +507,6 @@ footer{border-top:1px solid var(--line);padding:2rem 0 2.5rem;color:var(--muted)
               <select id="hosting" name="hosting">
                 <option>I'll host it myself</option>
                 <option>BotForge hosting ($7/mo)</option>
-                <option>Premium care plan ($20/mo)</option>
               </select>
             </div>
 
@@ -615,12 +562,8 @@ footer{border-top:1px solid var(--line);padding:2rem 0 2.5rem;color:var(--muted)
           <p>No. We can host it for you for $7 a month, so there's nothing to download or keep running. If you'd rather host it yourself, ask us about getting the source.</p>
         </details>
         <details>
-          <summary>What if Discord changes something?</summary>
-          <p>Maintenance ($10 a month) covers bug fixes and Discord API updates, so your bot keeps working.</p>
-        </details>
-        <details>
           <summary>Can I change the bot after it launches?</summary>
-          <p>Minor changes are included with Maintenance and Premium. Bigger changes are quoted separately before we start.</p>
+          <p>Yes. Message us with what you'd like changed and we'll quote it before starting.</p>
         </details>
         <details>
           <summary>What do you need from me to get started?</summary>
