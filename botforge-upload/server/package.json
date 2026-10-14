@@ -1,0 +1,17 @@
+{
+  "name": "botforge-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BotForge website with on-site ordering, customer order pages and an admin dashboard.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --experimental-sqlite --no-warnings=ExperimentalWarning server.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

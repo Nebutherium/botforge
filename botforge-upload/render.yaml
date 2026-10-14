@@ -1,0 +1,28 @@
+# Render Blueprint for the BotForge order server (orders, customer order pages, admin dashboard).
+# The main page (index.html) is served by GitHub Pages; this runs the part that needs a server.
+services:
+  - type: web
+    name: botforge-orders
+    runtime: node
+    rootDir: server
+    plan: starter            # a persistent disk needs a paid plan; the free plan loses orders on every restart
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: ADMIN_PASSWORD
+        generateValue: true  # shown under Environment in the Render dashboard
+      - key: SITE_URL
+        value: https://botforge-orders.onrender.com
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DATA_DIR
+        value: /var/data
+      - key: ALLOWED_ORIGINS
+        value: https://www.botforgeservices.dev,https://botforgeservices.dev,https://nebutherium.github.io
+    disk:
+      name: botforge-data
+      mountPath: /var/data
+      sizeGB: 1

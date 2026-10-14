@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Orders | BotForge admin</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&amp;family=Geist:wght@400..700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1F1D1A; --iron:#2A2723; --iron-2:#34302B;
+  --paper:#E7E4DD; --paper-2:#DCD8CF; --white:#F7F5F1;
+  --yellow:#F2C230; --yellow-hi:#F7D35E;
+  --on-dark:#F1EEE8; --muted-dark:#A9A399; --muted:#5C574F;
+  --red:#8C2F1F; --green:#2A7046;
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:4px; --hdr:60px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.55 var(--body);-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:750;line-height:1.08;letter-spacing:-.02em}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:42px;padding:0 1.05rem;border:2px solid transparent;border-radius:var(--r);background:none;font-weight:650;font-size:.95rem;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn-ink{background:var(--ink);color:var(--yellow)}
+.btn-ink:hover{background:var(--iron-2)}
+.btn-line{border-color:rgba(31,29,26,.3)}
+.btn-line:hover{border-color:var(--ink)}
+.btn-danger{color:var(--red);border-color:rgba(140,47,31,.35)}
+.btn-danger:hover{border-color:var(--red)}
+.btn[disabled]{opacity:.6;cursor:wait}
+input[type=text],input[type=password],input[type=search],select,textarea{width:100%;min-height:42px;padding:.55rem .75rem;border:1.5px solid #B4AEA3;border-radius:var(--r);background:var(--white);font-size:.97rem}
+textarea{min-height:5.5rem;resize:vertical;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(242,194,48,.7)}
+label.l{display:block;margin-bottom:.35rem;font-weight:650;font-size:.92rem}
+.hint{color:var(--muted);font-size:.86rem}
+.err{color:var(--red);font-weight:600;font-size:.92rem}
+
+/* Login */
+.login{min-height:100%;display:grid;place-items:center;padding:2rem 1rem;background:var(--ink);color:var(--on-dark)}
+.login form{width:min(360px,100%)}
+.login img{width:56px;height:56px;margin-bottom:1.25rem}
+.login h1{font-size:2rem;margin-bottom:1.5rem}
+.login input{background:var(--iron);border-color:var(--iron-2);color:var(--on-dark)}
+.login input:focus{border-color:var(--yellow);box-shadow:none}
+.login .btn{width:100%;margin-top:1rem;background:var(--yellow);color:var(--ink)}
+.login .err{color:#FF9C88;margin-top:.75rem}
+
+/* App */
+.hdr{position:sticky;top:0;z-index:5;height:var(--hdr);display:flex;align-items:center;gap:1rem;padding:0 1.25rem;background:var(--ink);color:var(--on-dark)}
+.brand{display:inline-flex;align-items:center;gap:.55rem;font:800 1.1rem/1 var(--display);text-decoration:none}
+.brand img{width:30px;height:30px}
+.brand span{color:var(--muted-dark);font:500 .95rem var(--body);margin-left:.25rem}
+.hdr .sp{flex:1}
+.hdr a,.hdr button{color:var(--muted-dark);font-size:.92rem;background:none;border:0;cursor:pointer;text-decoration:none}
+.hdr a:hover,.hdr button:hover{color:var(--on-dark)}
+.app{display:grid;grid-template-columns:minmax(320px,420px) minmax(0,1fr);height:calc(100% - var(--hdr))}
+.side{display:flex;flex-direction:column;min-height:0;background:var(--paper-2)}
+.side-top{padding:1rem 1rem .75rem}
+.filters{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.75rem}
+.filters button{padding:.32rem .6rem;border:0;border-radius:var(--r);background:transparent;font-size:.86rem;font-weight:600;color:var(--muted);cursor:pointer}
+.filters button:hover{color:var(--ink);background:rgba(31,29,26,.06)}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--yellow)}
+.filters b{font-weight:700;margin-left:.2rem;opacity:.75}
+.list{flex:1;min-height:0;overflow:auto;margin:0;padding:0 .5rem 1rem;list-style:none}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.15rem .75rem;width:100%;padding:.8rem .75rem;border:0;border-radius:var(--r);background:none;text-align:left;cursor:pointer}
+.row:hover{background:rgba(31,29,26,.05)}
+.row[aria-current="true"]{background:var(--white)}
+.row .c{font-weight:650}
+.row .n{grid-column:1;color:var(--muted);font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .d{white-space:pre-line;grid-row:1/3;grid-column:2;text-align:right;font-size:.82rem;color:var(--muted)}
+.tag{display:inline-block;margin-bottom:.3rem;padding:.12rem .45rem;border-radius:3px;background:var(--paper);font-size:.76rem;font-weight:650;color:var(--ink)}
+.tag.new{background:var(--yellow)}
+.tag.quoted{background:#E9D9A6}
+.tag.approved{background:#BFE0C8}
+.tag.in_progress,.tag.testing{background:#CFCAC0}
+.tag.delivered{background:#2A7046;color:#fff}
+.tag.cancelled{background:var(--red);color:#fff}
+.empty{padding:2rem 1rem;color:var(--muted)}
+
+.detail{min-height:0;overflow:auto;padding:2rem clamp(1.25rem,3vw,2.5rem) 4rem}
+.placeholder{display:grid;place-items:center;height:100%;color:var(--muted);text-align:center}
+.d-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem}
+.d-top .code{color:var(--muted);font-weight:600}
+.d-top h1{font-size:clamp(1.9rem,3.5vw,2.8rem);margin-top:.2rem;overflow-wrap:anywhere}
+.d-actions{display:flex;flex-wrap:wrap;gap:.5rem}
+.contact{display:flex;flex-wrap:wrap;gap:.5rem 1.75rem;margin-top:1rem;color:var(--muted)}
+.contact b{color:var(--ink);font-weight:600}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.5rem;margin-top:2rem}
+@media (max-width:1180px){.cols{grid-template-columns:minmax(0,1fr)}}
+.panel{padding:1.4rem 1.5rem;background:var(--white);border-radius:var(--r)}
+.panel + .panel{margin-top:1.5rem}
+.panel h2{font-size:1.25rem;margin-bottom:1rem}
+.f{margin-bottom:1rem}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.save-row{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem}
+.saved{color:var(--green);font-weight:600;font-size:.92rem}
+dl{margin:0;display:grid;gap:.75rem}
+dt{color:var(--muted);font-size:.86rem}
+dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.hist{margin:0;padding:0;list-style:none}
+.hist li{padding:.6rem 0;border-top:1px solid var(--paper-2)}
+.hist li:first-child{border-top:0}
+.hist .meta{display:flex;gap:.6rem;font-size:.82rem;color:var(--muted)}
+.hist .who{font-weight:650}
+.hist .who.note{color:#7A5200}
+.hist .t{white-space:pre-wrap;overflow-wrap:anywhere}
+.link-box{display:flex;gap:.5rem;margin-top:.25rem}
+.link-box input{font-size:.85rem}
+.back{display:none}
+.thread{margin:0 0 1rem;padding:0;list-style:none;display:grid;gap:.6rem}
+.thread li{max-width:88%;padding:.6rem .8rem;border-radius:var(--r);background:var(--paper)}
+.thread li.ours{justify-self:end;background:var(--ink);color:var(--on-dark)}
+.thread .who{display:block;font-size:.78rem;font-weight:650;opacity:.75}
+.thread .t{white-space:pre-wrap;overflow-wrap:anywhere}
+.thread .none{background:none;padding:0;color:var(--muted)}
+.tag.waiting{background:#E0614C;color:#fff;margin-left:.3rem}
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr);height:auto}
+  .side{min-height:calc(100vh - var(--hdr))}
+  .app.viewing .side{display:none}
+  .app:not(.viewing) .detail{display:none}
+  .detail{overflow:visible}
+  .back{display:inline-flex;margin-bottom:1rem}
+  .f2{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="login" id="login" hidden>
+  <form id="loginForm">
+    <img src="/assets/logo.png" alt="">
+    <h1>BotForge admin</h1>
+    <label class="l" for="pw">Password</label>
+    <input type="password" id="pw" autocomplete="current-password" required>
+    <button class="btn" type="submit" id="loginBtn">Log in</button>
+    <p class="err" id="loginErr" role="alert" hidden></p>
+  </form>
+</div>
+
+<div id="shell" hidden style="height:100%">
+  <header class="hdr">
+    <a class="brand" href="/admin"><img src="/assets/logo.png" alt="">BotForge<span>Orders</span></a>
+    <span class="sp"></span>
+    <a href="/" target="_blank" rel="noopener">View site</a>
+    <button type="button" id="logoutBtn">Log out</button>
+  </header>
+  <div class="app" id="app">
+    <aside class="side" aria-label="Orders">
+      <div class="side-top">
+        <label class="l" for="search" style="position:absolute;left:-9999px">Search orders</label>
+        <input type="search" id="search" placeholder="Search by order number, bot, email or text">
+        <div class="filters" id="filters" role="group" aria-label="Filter by status"></div>
+      </div>
+      <ul class="list" id="list" aria-label="Order list"></ul>
+    </aside>
+
+    <section class="detail" id="detail" aria-live="polite">
+      <div class="placeholder" id="placeholder"><p>Pick an order on the left to see it here.</p></div>
+      <div id="view" hidden>
+        <button class="btn btn-line back" type="button" id="backBtn">All orders</button>
+        <div class="d-top">
+          <div>
+            <p class="code"><span id="dCode"></span>, placed <span id="dPlaced"></span></p>
+            <h1 id="dName"></h1>
+          </div>
+          <div class="d-actions">
+            <a class="btn btn-line" id="dTrack" target="_blank" rel="noopener">Customer's view</a>
+            <button class="btn btn-line" type="button" id="handledBtn" hidden>Mark as handled</button>
+            <button class="btn btn-danger" type="button" id="deleteBtn">Delete order</button>
+          </div>
+        </div>
+        <p class="contact" id="dContact"></p>
+
+        <div class="cols">
+          <div>
+            <form class="panel" id="editForm">
+              <h2>Status and quote</h2>
+              <div class="f">
+                <label class="l" for="eStatus">Status</label>
+                <select id="eStatus"></select>
+              </div>
+              <div class="f2">
+                <div class="f">
+                  <label class="l" for="ePrice">Quote price</label>
+                  <input type="text" id="ePrice" placeholder="e.g. $25">
+                </div>
+                <div class="f">
+                  <label class="l" for="eDue">Ready by</label>
+                  <input type="text" id="eDue" placeholder="e.g. Oct 20">
+                </div>
+              </div>
+              <p class="hint" style="margin-bottom:1rem">Set a price, then move the status to "Quote sent" so the customer can approve it on their page.</p>
+              <div class="save-row">
+                <button class="btn btn-ink" type="submit" id="saveBtn">Save changes</button>
+                <span class="saved" id="savedMsg" role="status"></span>
+                <span class="err" id="saveErr" role="alert" hidden></span>
+              </div>
+            </form>
+
+            <form class="panel" id="replyForm">
+              <h2>Messages</h2>
+              <ol class="thread" id="thread"></ol>
+              <label class="l" for="replyText" style="position:absolute;left:-9999px">Reply to customer</label>
+              <textarea id="replyText" placeholder="Reply to the customer. They see it on their order page."></textarea>
+              <div class="save-row" style="margin-top:.75rem"><button class="btn btn-ink" type="submit" id="replyBtn">Send reply</button><span class="err" id="replyErr" role="alert" hidden></span></div>
+              <p class="hint" style="margin-top:.6rem">Customers aren't emailed automatically. If it's urgent, email them too.</p>
+            </form>
+
+            <div class="panel">
+              <h2>Customer's order page</h2>
+              <p class="hint">Send this link to the customer if they lose it. Anyone with it can see the order.</p>
+              <div class="link-box"><input type="text" id="dLink" readonly aria-label="Customer order page link"><button class="btn btn-line" type="button" id="copyLinkBtn">Copy</button></div>
+            </div>
+
+            <form class="panel" id="noteForm">
+              <h2>Internal note</h2>
+              <label class="l" for="noteText" style="position:absolute;left:-9999px">Internal note</label>
+              <textarea id="noteText" placeholder="Only staff can see this."></textarea>
+              <div class="save-row" style="margin-top:.75rem"><button class="btn btn-line" type="submit">Add note</button><span class="err" id="noteErr" role="alert" hidden></span></div>
+            </form>
+          </div>
+
+          <div>
+            <div class="panel">
+              <h2>What they asked for</h2>
+              <dl id="dAsked"></dl>
+            </div>
+            <div class="panel">
+              <h2>History</h2>
+              <ul class="hist" id="dHist"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(s){ return document.querySelector(s); };
+  var STATUSES = [], counts = {}, filter = 'open', query = '', currentId = null, current = null;
+
+  function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function fmt(iso, time){
+    var d = new Date(iso);
+    return time ? d.toLocaleString(undefined, {month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'})
+                : d.toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'});
+  }
+  function label(id){ var s = STATUSES.filter(function(x){ return x.id === id; })[0]; return s ? s.label : id; }
+
+  async function api(method, url, body){
+    var res = await fetch(url, {method: method, headers: body ? {'Content-Type': 'application/json'} : {}, body: body ? JSON.stringify(body) : undefined, cache: 'no-store'});
+    var data = await res.json().catch(function(){ return {}; });
+    if (res.status === 401 && url !== '/api/admin/login'){ showLogin(); throw new Error('Log in again.'); }
+    if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+    return data;
+  }
+
+  /* ---------- Login ---------- */
+  function showLogin(){ $('#shell').hidden = true; $('#login').hidden = false; $('#pw').focus(); }
+  function showApp(){ $('#login').hidden = true; $('#shell').hidden = false; }
+  $('#loginForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var btn = $('#loginBtn'), err = $('#loginErr'); err.hidden = true; btn.disabled = true;
+    try { await api('POST', '/api/admin/login', {password: $('#pw').value}); $('#pw').value = ''; start(); }
+    catch (x) { err.textContent = x.message; err.hidden = false; }
+    finally { btn.disabled = false; }
+  });
+  $('#logoutBtn').addEventListener('click', async function(){ try { await api('POST', '/api/admin/logout', {}); } catch (e) {} showLogin(); });
+
+  /* ---------- List ---------- */
+  function renderFilters(){
+    var box = $('#filters'); box.replaceChildren();
+    var total = 0, open = 0;
+    STATUSES.forEach(function(s){ var n = counts[s.id] || 0; total += n; if (s.id !== 'delivered' && s.id !== 'cancelled') open += n; });
+    [['waiting', 'Needs reply', counts.waiting || 0], ['open', 'Open', open]].concat(STATUSES.map(function(s){ return [s.id, s.label, counts[s.id] || 0]; }), [['all', 'All', total]]).forEach(function(f){
+      var b = el('button', null, f[1]); b.type = 'button';
+      if (f[2]) b.appendChild(el('b', null, String(f[2])));
+      b.setAttribute('aria-pressed', filter === f[0] ? 'true' : 'false');
+      b.addEventListener('click', function(){ filter = f[0]; loadList(); });
+      box.appendChild(b);
+    });
+  }
+  async function loadList(){
+    var params = new URLSearchParams();
+    if (filter !== 'all') params.set('status', filter);
+    if (query) params.set('q', query);
+    try {
+      var data = await api('GET', '/api/admin/orders?' + params);
+      counts = data.counts; renderFilters();
+      var list = $('#list'); list.replaceChildren();
+      if (!data.orders.length){
+        list.appendChild(el('li', 'empty', query ? 'No orders match that search.' : 'No orders here yet. New orders from the site show up in this list.'));
+        return;
+      }
+      data.orders.forEach(function(o){
+        var li = el('li'), b = el('button', 'row');
+        b.type = 'button';
+        if (o.id === currentId) b.setAttribute('aria-current', 'true');
+        var main = el('span');
+        main.appendChild(el('span', 'tag ' + o.status, label(o.status)));
+        if (o.waiting) main.appendChild(el('span', 'tag waiting', 'Needs reply'));
+        main.appendChild(el('span', 'c', ' ' + o.code + ' ' + o.bot_name));
+        b.appendChild(main);
+        b.appendChild(el('span', 'd', fmt(o.created_at) + (o.quote_price ? '\n' + o.quote_price : '')));
+        b.appendChild(el('span', 'n', (o.email || '') + (o.package && o.package !== 'Not sure yet' ? ', ' + o.package : '')));
+        b.addEventListener('click', function(){ location.hash = String(o.id); });
+        li.appendChild(b); list.appendChild(li);
+      });
+    } catch (e) { /* login screen or error already shown */ }
+  }
+  var searchTimer;
+  $('#search').addEventListener('input', function(){
+    clearTimeout(searchTimer);
+    var v = this.value.trim();
+    searchTimer = setTimeout(function(){ query = v; if (v) filter = 'all'; loadList(); }, 250);
+  });
+
+  /* ---------- Detail ---------- */
+  async function openOrder(id){
+    currentId = id;
+    $('#app').classList.toggle('viewing', !!id);
+    if (!id){ $('#view').hidden = true; $('#placeholder').hidden = false; loadList(); return; }
+    try {
+      var data = await api('GET', '/api/admin/orders/' + id);
+      current = data.order; renderOrder(data.order, data.events);
+      $('#placeholder').hidden = true; $('#view').hidden = false;
+    } catch (e) {
+      $('#view').hidden = true; $('#placeholder').hidden = false;
+      $('#placeholder').firstElementChild.textContent = e.message;
+    }
+    loadList();
+  }
+  function renderOrder(o, events){
+    $('#dCode').textContent = o.code;
+    $('#dPlaced').textContent = fmt(o.created_at, true);
+    $('#dName').textContent = o.bot_name;
+    $('#dTrack').href = o.trackUrl;
+    $('#dLink').value = o.trackUrl;
+    var c = $('#dContact'); c.replaceChildren();
+    if (o.email){ var s2 = el('span', null, 'Email '); var a = el('a', null, o.email); a.href = 'mailto:' + o.email; var bb = el('b'); bb.appendChild(a); s2.appendChild(bb); c.appendChild(s2); }
+
+    var sel = $('#eStatus'); sel.replaceChildren();
+    STATUSES.forEach(function(s){ var op = el('option', null, s.label); op.value = s.id; sel.appendChild(op); });
+    sel.value = o.status;
+    $('#ePrice').value = o.quote_price; $('#eDue').value = o.quote_due;
+    $('#handledBtn').hidden = !o.waiting;
+    var th = $('#thread'); th.replaceChildren();
+    var msgs = events.filter(function(ev){ return ev.kind === 'message' || ev.kind === 'customer'; });
+    if (!msgs.length) th.appendChild(el('li', 'none', 'No messages yet.'));
+    msgs.forEach(function(ev){
+      var li = el('li', ev.kind === 'message' ? 'ours' : '');
+      li.appendChild(el('span', 'who', (ev.kind === 'message' ? 'You' : 'Customer') + ', ' + fmt(ev.at, true)));
+      li.appendChild(el('span', 't', ev.text)); th.appendChild(li);
+    });
+    $('#replyErr').hidden = true;
+    $('#savedMsg').textContent = ''; $('#saveErr').hidden = true;
+
+    var dl = $('#dAsked'); dl.replaceChildren();
+    [['Platforms', o.platforms], ['Features', o.features], ['What it should do', o.purpose], ['Commands', o.commands],
+     ['Server, channel or site', o.server], ['Package', o.package], ['Hosting', o.hosting], ['Budget', o.budget]]
+      .filter(function(r){ return r[1]; }).forEach(function(r){ dl.appendChild(el('dt', null, r[0])); dl.appendChild(el('dd', null, r[1])); });
+
+    var h = $('#dHist'); h.replaceChildren();
+    events.slice().reverse().forEach(function(ev){
+      var li = el('li'), meta = el('div', 'meta');
+      var who = ev.kind === 'note' ? 'Internal note' : ev.kind === 'message' ? 'Your reply' : ev.kind === 'customer' ? 'From customer' : ev.kind === 'quote' ? 'Quote' : 'Status';
+      meta.appendChild(el('span', 'who' + (ev.kind === 'note' ? ' note' : ''), who));
+      meta.appendChild(el('span', null, fmt(ev.at, true)));
+      li.appendChild(meta); li.appendChild(el('div', 't', ev.text)); h.appendChild(li);
+    });
+  }
+  $('#editForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    if (!current) return;
+    var btn = $('#saveBtn'), err = $('#saveErr'); err.hidden = true; btn.disabled = true; $('#savedMsg').textContent = '';
+    try {
+      var r = await api('PATCH', '/api/admin/orders/' + current.id, {status: $('#eStatus').value, quotePrice: $('#ePrice').value, quoteDue: $('#eDue').value});
+      await openOrder(current.id);
+      $('#savedMsg').textContent = r.unchanged ? 'Nothing changed.' : 'Saved. The customer sees this now.';
+    } catch (x) { err.textContent = x.message; err.hidden = false; }
+    finally { btn.disabled = false; }
+  });
+  $('#replyForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var err = $('#replyErr'), btn = $('#replyBtn'); err.hidden = true; btn.disabled = true;
+    try { await api('POST', '/api/admin/orders/' + current.id + '/messages', {text: $('#replyText').value}); $('#replyText').value = ''; await openOrder(current.id); }
+    catch (x) { err.textContent = x.message; err.hidden = false; }
+    finally { btn.disabled = false; }
+  });
+  $('#handledBtn').addEventListener('click', async function(){
+    try { await api('PATCH', '/api/admin/orders/' + current.id, {waiting: false}); openOrder(current.id); } catch (x) { alert(x.message); }
+  });
+  $('#noteForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var err = $('#noteErr'); err.hidden = true;
+    try { await api('POST', '/api/admin/orders/' + current.id + '/notes', {text: $('#noteText').value}); $('#noteText').value = ''; openOrder(current.id); }
+    catch (x) { err.textContent = x.message; err.hidden = false; }
+  });
+  $('#deleteBtn').addEventListener('click', async function(){
+    if (!current || !confirm('Delete order ' + current.code + '? This removes it and its history for good, and the customer\'s link stops working.')) return;
+    try { await api('DELETE', '/api/admin/orders/' + current.id); location.hash = ''; }
+    catch (x) { alert(x.message); }
+  });
+  $('#copyLinkBtn').addEventListener('click', async function(){
+    var input = $('#dLink'), btn = this;
+    try { await navigator.clipboard.writeText(input.value); } catch (e) { input.select(); document.execCommand('copy'); }
+    btn.textContent = 'Copied'; setTimeout(function(){ btn.textContent = 'Copy'; }, 1500);
+  });
+  $('#backBtn').addEventListener('click', function(){ location.hash = ''; });
+  window.addEventListener('hashchange', function(){ openOrder(Number(location.hash.slice(1)) || null); });
+
+  /* ---------- Start ---------- */
+  async function start(){
+    try {
+      var me = await api('GET', '/api/admin/me');
+      STATUSES = me.statuses;
+      if (!me.loggedIn) return showLogin();
+      showApp();
+      openOrder(Number(location.hash.slice(1)) || null);
+    } catch (e) { showLogin(); }
+  }
+  setInterval(function(){ if (!document.hidden && !$('#shell').hidden) loadList(); }, 30000);
+  start();
+})();
+</script>
+</body>
+</html>
