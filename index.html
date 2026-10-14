@@ -22,7 +22,6 @@
 <script>document.documentElement.className += ' js';</script>
 <!--
   BotForge website.
-  - Discord invite: search this file for "discord.com/invite" to change it (it appears in several buttons).
   - Prices live in the "Pricing" section and in the PLANS list near the bottom of the script.
 -->
 <style>
@@ -95,7 +94,6 @@ button{font:inherit;color:inherit}
 .nav{display:flex;gap:.25rem;margin-left:auto}
 .nav a{padding:.5rem .75rem;color:var(--muted-dark);font-weight:550;font-size:.97rem;text-decoration:none}
 .nav a:hover{color:var(--on-dark)}
-.nav .nav-discord{display:none}
 .hdr-actions{display:flex;align-items:center;gap:.6rem}
 .menu-btn{display:none;width:44px;height:44px;align-items:center;justify-content:center;border:0;background:var(--iron);border-radius:var(--r);cursor:pointer}
 .menu-btn .ico{width:22px;height:22px}
@@ -108,7 +106,6 @@ button{font:inherit;color:inherit}
   .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:.5rem 1.5rem 1.25rem;background:var(--iron)}
   .menu-open .nav{display:flex}
   .nav a{padding:.9rem 0;font-size:1.1rem;color:var(--on-dark)}
-  .nav .nav-discord{display:flex;align-items:center;gap:.5rem;color:var(--yellow)}
 }
 
 /* Hero */
@@ -424,10 +421,8 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
       <a href="#pricing">Pricing</a>
       <a href="#how">How it works</a>
       <a href="#support">Questions</a>
-      <a class="nav-discord" href="https://discord.com/invite/botforge" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-discord"/></svg>Join our Discord</a>
     </nav>
     <div class="hdr-actions">
-      <a class="btn btn-ghost btn-sm hide-md" href="https://discord.com/invite/botforge" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-discord"/></svg>Discord</a>
       <a class="btn btn-primary btn-sm" href="#order">Order a bot</a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><svg class="ico i-open" aria-hidden="true"><use href="#i-menu"/></svg><svg class="ico i-close" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
@@ -684,19 +679,13 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
               </select>
             </div>
 
-            <div class="field">
-              <label for="discord">Discord username <span class="opt">(optional)</span></label>
-              <input type="text" id="discord" name="discord" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="yourname">
-            </div>
-
-            <div class="field">
-              <label for="email">Email <span class="opt">(optional)</span></label>
-              <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" aria-describedby="email-err">
+            <div class="field full">
+              <label for="email">Your email</label>
+              <input type="email" id="email" name="email" autocomplete="email" required placeholder="you@example.com" aria-describedby="email-hint email-err">
+              <p class="hint" id="email-hint">Only used to reach you about this order.</p>
               <p class="err" id="email-err" hidden></p>
             </div>
-            <p class="hint field full" id="contact-hint">Give us at least one so we can reach you about your quote.</p>
-            <p class="err field full" id="contact-err" hidden></p>
-            <div class="hp" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+                        <div class="hp" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
           </div>
 
           <div class="form-actions">
@@ -704,7 +693,7 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
             <span class="hint">Nothing is charged. You'll get a quote first.</span>
             <p class="err" id="formErr" role="alert" hidden style="flex-basis:100%"></p>
           </div>
-          <noscript><p class="hint" style="margin-top:1rem">Turn on JavaScript to send an order, or message us on Discord.</p></noscript>
+          <noscript><p class="hint" style="margin-top:1rem">Turn on JavaScript to send an order.</p></noscript>
         </form>
 
         <div class="brief" id="brief" hidden>
@@ -735,8 +724,7 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
             <li><div><b>Get your order page</b><span>A private link where you can check status and read our updates.</span></div></li>
             <li><div><b>Approve your quote</b><span>When the price and date look right, approve it there and we start building.</span></div></li>
           </ol>
-          <p class="skip-form">Want to talk it through first? Ask us on Discord.</p>
-          <a class="btn btn-ghost" href="https://discord.com/invite/botforge" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-discord"/></svg>Ask on Discord</a>
+          <p class="skip-form">Not sure what you need yet? Send it anyway. It's free, and you can ask us questions on your order page before anything is charged.</p>
         </div>
       </aside>
     </div>
@@ -746,18 +734,17 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
     <div class="wrap faq-grid">
       <header class="head">
         <h2 id="support-title">Questions</h2>
-        <p>If yours isn't here, ask on Discord.</p>
-        <a class="btn btn-ghost" href="https://discord.com/invite/botforge" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-discord"/></svg>Ask on Discord</a>
+        <p>Not answered here? Send an order with your question. It's free, and we'll reply on your order page.</p>
       </header>
       <div class="faq">
-        <details open><summary>How do I place an order?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Fill out the order form on this page and press Send my order. You get an order number and a private link to your order page, where your quote shows up.</p></details>
+        <details open><summary>How do I place an order?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Fill out the order form on this page and press Send my order. You get an order number and a private link to your order page, where your quote shows up and where you can message us.</p></details>
         <details><summary>Which platforms do you build for?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Discord and Minecraft are our main focus, and we also build for Telegram, Twitch, Slack, Reddit and websites. If your platform allows bots, describe what you need and we'll tell you on your order page whether we can build it.</p></details>
         <details><summary>When do I pay?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>After you approve the quote on your order page. Sending an order is free.</p></details>
         <details><summary>How long does a bot take?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Simple bots usually take 2 to 3 days. Your quote gives a date based on what you ask for.</p></details>
         <details><summary>Do I have to host the bot myself?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>No. We can host it for $7 a month, so there's nothing to download or keep running. If you'd rather host it yourself, ask us about getting the source.</p></details>
         <details><summary>Can you build something that isn't listed?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Yes. Tick "Something that isn't on these lists", describe it in the form, and we'll work it out with you.</p></details>
         <details><summary>Can I change the bot after it launches?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Yes. Tell us what you'd like changed and we'll quote it before we start.</p></details>
-        <details><summary>What do you need from me?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>A name for the bot, what it should do, any commands you already have in mind, the platform it runs on (plus your server, channel or site if there is one), your budget, and a Discord username or email so we can reach you.</p></details>
+        <details><summary>What do you need from me?<span class="pm" aria-hidden="true"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>A name for the bot, what it should do, any commands you already have in mind, the platform it runs on (plus your server, channel or site if there is one), your budget, and an email so we can reach you.</p></details>
       </div>
     </div>
   </section>
@@ -769,7 +756,7 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
         <p>Describe it in a sentence. We'll post a price on your order page.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#order">Order a bot</a>
-          <a class="btn btn-ghost" href="https://discord.com/invite/botforge" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-discord"/></svg>Join our Discord</a>
+          <a class="btn btn-ghost" href="#pricing">See prices</a>
         </div>
       </div>
       <div class="final-mark" aria-hidden="true"></div>
@@ -798,7 +785,6 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
       <a href="#how">How it works</a>
       <a href="#order">Order</a>
       <a href="#support">Questions</a>
-      <a href="https://discord.com/invite/botforge" target="_blank" rel="noopener">Discord</a>
     </nav>
   </div>
   <div class="wrap ftr-legal">
@@ -1082,31 +1068,26 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
   /* ---------- Order form ---------- */
   var trackUrl = '';
   function showError(id, msg){
-    var e = $('#' + id + '-err');
-    var targets = id === 'contact' ? ['discord', 'email'] : [id];
-    targets.forEach(function(t){ var f = $('#' + t); if (f){ if (msg) f.setAttribute('aria-invalid', 'true'); else f.removeAttribute('aria-invalid'); } });
+    var f = $('#' + id), e = $('#' + id + '-err');
+    if (msg) f.setAttribute('aria-invalid', 'true'); else f.removeAttribute('aria-invalid');
     e.textContent = msg || ''; e.hidden = !msg;
-    if (id === 'contact') $('#contact-hint').hidden = !!msg;
   }
-  ['botName', 'purpose', 'discord', 'email'].forEach(function(id){
-    $('#' + id).addEventListener('input', function(){
-      if (id === 'discord' || id === 'email'){ if (this.value.trim()) showError('contact', ''); if (id === 'email') showError('email', ''); }
-      else if (this.value.trim()) showError(id, '');
-    });
+  ['botName', 'purpose', 'email'].forEach(function(id){
+    $('#' + id).addEventListener('input', function(){ if (this.value.trim()) showError(id, ''); });
   });
   function validate(){
     var errs = {};
     if (!$('#botName').value.trim()) errs.botName = 'Give your bot a name. You can change it later.';
     if (!$('#purpose').value.trim()) errs.purpose = 'Tell us what the bot should do. A sentence or two is plenty.';
     var email = $('#email').value.trim();
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'That email address doesn’t look right.';
-    if (!$('#discord').value.trim() && !email) errs.contact = 'Add a Discord username or an email so we can reach you.';
+    if (!email) errs.email = 'Add your email so we can reach you about your order.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'That email address doesn’t look right.';
     return errs;
   }
   function applyErrors(errs){
-    ['botName', 'purpose', 'contact', 'email'].forEach(function(id){ showError(id, errs[id] || ''); });
-    var order = ['botName', 'purpose', 'contact', 'email'];
-    for (var i = 0; i < order.length; i++) if (errs[order[i]]){ $(order[i] === 'contact' ? '#discord' : '#' + order[i]).focus(); return true; }
+    var order = ['botName', 'purpose', 'email'], first = null;
+    order.forEach(function(id){ showError(id, errs[id] || ''); if (errs[id] && !first) first = id; });
+    if (first){ $('#' + first).focus(); return true; }
     return false;
   }
   form.addEventListener('submit', async function(e){
@@ -1120,7 +1101,7 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
       platforms: data.getAll('platform'), features: Array.from(selected.keys()),
       commands: data.get('commands'), server: data.get('server'), budget: data.get('budget'),
       package: data.get('package'), hosting: data.get('hosting'),
-      discord: data.get('discord'), email: data.get('email'), website: data.get('website')
+      email: data.get('email'), website: data.get('website')
     };
     btn.disabled = true; btn.textContent = 'Sending…';
     try {
@@ -1147,7 +1128,7 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#B23A26}
       scrollToEl($('#order'));
     } catch (err) {
       formErr.textContent = (err && err.message && err.message !== 'Failed to fetch' && err.message.indexOf('NetworkError') < 0 ? err.message + ' ' : '') +
-        'We couldn’t send your order. Check your connection and try again. If it keeps failing, message us on Discord.';
+        'We couldn’t send your order. Check your connection and try again. If it keeps failing, try again in a few minutes.';
       formErr.hidden = false;
     } finally {
       btn.disabled = false; btn.textContent = 'Send my order';
