@@ -1,5 +1,0 @@
-# Gives the order server on this desktop a public HTTPS address.
-# Needs: DNS "A" record api.botforgeservices.dev -> your home IP, and router ports 80 and 443 forwarded to this PC.
-api.botforgeservices.dev {
-	reverse_proxy localhost:3000
-}
